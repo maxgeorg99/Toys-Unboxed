@@ -18,5 +18,5 @@ With a Rock, Paper and Sicor system you have to adjust to the decisions of your 
 Inspired by Mechabelum and Demeon.
 
 Art Packs: 
-https://itch.io/s/112920/rpgfantasy-characters
-https://pixelfrog-assets.itch.io/tiny-swords
+* https://itch.io/s/112920/rpgfantasy-characters
+* https://pixelfrog-assets.itch.io/tiny-swords
