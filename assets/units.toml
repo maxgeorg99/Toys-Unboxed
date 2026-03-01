@@ -1,0 +1,969 @@
+[[units]]
+id = "warrior"
+name = "Red Warrior"
+sprite_path = "Units/Red Units/Warrior/Warrior_Run.png"
+idle_sprite_path = "Units/Red Units/Warrior/Warrior_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Units/Red Units/Warrior/Warrior_Attack1.png"
+attack_sound = "Sound Effects/Assasin.mp3"
+avatar_path = "Units/Red Units/Warrior/Avatar.png"
+base_health = 50.0
+base_speed = 50.0
+damage_to_base = 1
+gold_reward = 10
+frame_count = 6
+attack_frame_count = 4
+frame_size = [
+    192,
+    192,
+]
+attack_type = "blunt"
+defense_type = "armor"
+base_damage = 20.0
+attack_range = 22.0
+attack_cooldown = 1.0
+meat_cost = 5
+recruitable = true
+faction = ""
+troops_width = 1
+troops_height = 2
+death_sprite_path = "Units/Red Units/Warrior/Warrior_Death.png"
+death_frame_count = 4
+death_frame_size = [
+    128,
+    128,
+]
+
+[[units]]
+id = "archer"
+name = "Red Archer"
+sprite_path = "Units/Red Units/Archer/Archer_Run.png"
+idle_sprite_path = "Units/Red Units/Archer/Archer_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Units/Red Units/Archer/Archer_Shoot.png"
+attack_sound = "Sound Effects/attack_arrow.mp3"
+avatar_path = "Units/Red Units/Archer/Avatar.png"
+base_health = 30.0
+base_speed = 60.0
+damage_to_base = 1
+gold_reward = 8
+frame_count = 4
+attack_frame_count = 8
+frame_size = [
+    192,
+    192,
+]
+attack_type = "pierce"
+defense_type = "agility"
+base_damage = 12.0
+attack_range = 120.0
+attack_cooldown = 0.8
+meat_cost = 2
+recruitable = true
+faction = ""
+troops_width = 2
+troops_height = 6
+death_sprite_path = "Units/Red Units/Archer/Archer_Death.png"
+death_frame_count = 5
+death_frame_size = [
+    128,
+    128,
+]
+
+[[units]]
+id = "lancer"
+name = "Red Lancer"
+sprite_path = "Units/Red Units/Lancer/Lancer_Run.png"
+idle_sprite_path = "Units/Red Units/Lancer/Lancer_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Units/Red Units/Lancer/Lancer_Right_Attack.png"
+attack_sound = "Sound Effects/attack_arrow.mp3"
+avatar_path = "Units/Red Units/Lancer/Avatar.png"
+base_health = 80.0
+base_speed = 40.0
+damage_to_base = 2
+gold_reward = 15
+frame_count = 6
+attack_frame_count = 3
+frame_size = [
+    320,
+    320,
+]
+attack_type = "pierce"
+defense_type = "armor"
+base_damage = 15.0
+attack_range = 30.0
+attack_cooldown = 1.2
+meat_cost = 3
+recruitable = true
+faction = ""
+troops_width = 1
+troops_height = 3
+death_sprite_path = "Units/Red Units/Lancer/Lancer_Death.png"
+death_frame_count = 5
+death_frame_size = [
+    200,
+    200,
+]
+
+[[units]]
+id = "monk"
+name = "Red Monk"
+sprite_path = "Units/Red Units/Monk/Run.png"
+idle_sprite_path = "Units/Red Units/Monk/Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Units/Red Units/Monk/Heal.png"
+attack_sound = "Sound Effects/attack_holy.ogg"
+avatar_path = "Units/Red Units/Monk/Avatar.png"
+base_health = 80.0
+base_speed = 40.0
+damage_to_base = 3
+gold_reward = 25
+frame_count = 4
+attack_frame_count = 11
+frame_size = [
+    192,
+    192,
+]
+attack_type = "divine"
+defense_type = "mystical"
+base_damage = 18.0
+attack_range = 60.0
+attack_cooldown = 1.5
+meat_cost = 3
+recruitable = true
+faction = ""
+troops_width = 1
+troops_height = 3
+death_sprite_path = "Units/Red Units/Monk/Death.png"
+death_frame_count = 4
+death_frame_size = [
+    128,
+    128,
+]
+
+[[units]]
+id = "skull"
+name = "Skull"
+sprite_path = "Enemies/Skull/Skull_Run.png"
+idle_sprite_path = "Enemies/Skull/Skull_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Skull/Skull_Attack.png"
+attack_sound = "Sound Effects/Assasin.mp3"
+avatar_path = "Enemies/Skull/Skull Avatar.png"
+base_health = 70.0
+base_speed = 45.0
+damage_to_base = 2
+gold_reward = 12
+frame_count = 6
+attack_frame_count = 7
+frame_size = [
+    192,
+    192,
+]
+attack_type = "magic"
+defense_type = "mystical"
+troops_width = 3
+troops_height = 10
+death_sprite_path = "Enemies/Skull/Skull_Death.png"
+death_frame_count = 5
+
+[[units]]
+id = "paddle_fish"
+name = "Paddle Fish"
+sprite_path = "Enemies/Paddle Fish/PaddleFish_Run.png"
+idle_sprite_path = "Enemies/Paddle Fish/PaddleFish_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Paddle Fish/PaddleFish_Attack.png"
+attack_sound = "Sound Effects/Bonk.mp3"
+avatar_path = "Enemies/Paddle Fish/Paddle Fish Avatar.png"
+base_health = 40.0
+base_speed = 65.0
+damage_to_base = 1
+gold_reward = 9
+frame_count = 6
+attack_frame_count = 6
+frame_size = [
+    192,
+    192,
+]
+attack_type = "blunt"
+defense_type = "agility"
+troops_width = 1
+troops_height = 2
+death_sprite_path = "Enemies/Paddle Fish/PaddleFish_Death.png"
+death_frame_count = 5
+
+[[units]]
+id = "harpoon_fish"
+name = "Harpoon Fish"
+sprite_path = "Enemies/Harpoon Fish/HarpoonFish_Run.png"
+idle_sprite_path = "Enemies/Harpoon Fish/HarpoonFish_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Harpoon Fish/HarpoonFish_Throw.png"
+attack_sound = "Sound Effects/Harpoon.mp3"
+avatar_path = "Enemies/Harpoon Fish/Harpoon Fish Avatar.png"
+base_health = 35.0
+base_speed = 70.0
+damage_to_base = 1
+gold_reward = 10
+frame_count = 6
+attack_frame_count = 8
+frame_size = [
+    192,
+    192,
+]
+attack_type = "pierce"
+defense_type = "agility"
+troops_width = 1
+troops_height = 2
+death_sprite_path = "Enemies/Harpoon Fish/Harpoon_Death.png"
+death_frame_count = 4
+
+[[units]]
+id = "goblin_lancer"
+name = "Goblin Lancer"
+sprite_path = "Enemies/Lancer/Lancer_Run.png"
+idle_sprite_path = "Enemies/Lancer/Lancer_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Lancer/Lancer_Attack.png"
+attack_sound = "Sound Effects/Goblin Lancer.mp3"
+avatar_path = "Enemies/Lancer/Lancer Avatar.png"
+base_health = 60.0
+base_speed = 55.0
+damage_to_base = 2
+gold_reward = 12
+frame_count = 6
+attack_frame_count = 8
+frame_size = [
+    256,
+    256,
+]
+attack_type = "pierce"
+defense_type = "armor"
+troops_width = 1
+troops_height = 2
+death_sprite_path = "Enemies/Lancer/Lancer_Death.png"
+death_frame_count = 5
+
+[[units]]
+id = "shaman"
+name = "Shaman"
+sprite_path = "Enemies/Shaman/Shaman_Run.png"
+idle_sprite_path = "Enemies/Shaman/Shaman_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Shaman/Shaman_Attack.png"
+attack_sound = "Sound Effects/Magic Bolt.mp3"
+avatar_path = "Enemies/Shaman/Shaman Avatar.png"
+base_health = 30.0
+base_speed = 50.0
+damage_to_base = 3
+gold_reward = 14
+frame_count = 4
+attack_frame_count = 10
+frame_size = [
+    192,
+    192,
+]
+attack_type = "magic"
+defense_type = "mystical"
+troops_width = 1
+troops_height = 3
+death_sprite_path = "Enemies/Shaman/Shaman_Death.png"
+death_frame_count = 5
+
+[[units]]
+id = "thief"
+name = "Thief"
+sprite_path = "Enemies/Thief/Thief_Run.png"
+idle_sprite_path = "Enemies/Thief/Thief_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Thief/Thief_Attack.png"
+attack_sound = "Sound Effects/Assasin.mp3"
+avatar_path = "Enemies/Thief/Thief Avatar.png"
+base_health = 25.0
+base_speed = 80.0
+damage_to_base = 1
+gold_reward = 8
+frame_count = 6
+attack_frame_count = 6
+frame_size = [
+    192,
+    192,
+]
+attack_type = "pierce"
+defense_type = "agility"
+troops_width = 1
+troops_height = 2
+death_sprite_path = "Enemies/Thief/Thief_Death.png"
+death_frame_count = 5
+
+[[units]]
+id = "snake"
+name = "Snake"
+sprite_path = "Enemies/Snake/Snake_Run.png"
+idle_sprite_path = "Enemies/Snake/Snake_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Snake/Snake_Attack.png"
+attack_sound = "Sound Effects/Viper.mp3"
+avatar_path = "Enemies/Snake/Snake Avatar.png"
+base_health = 20.0
+base_speed = 75.0
+damage_to_base = 1
+gold_reward = 7
+frame_count = 8
+attack_frame_count = 6
+frame_size = [
+    192,
+    192,
+]
+attack_type = "magic"
+defense_type = "agility"
+troops_width = 1
+troops_height = 2
+death_sprite_path = "Enemies/Snake/Snake_Death.png"
+death_frame_count = 4
+
+[[units]]
+id = "turtle"
+name = "Turtle"
+sprite_path = "Enemies/Turtle/Turtle_Walk.png"
+idle_sprite_path = "Enemies/Turtle/Turtle_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Turtle/Turtle_Attack.png"
+attack_sound = "Sound Effects/Viper.mp3"
+avatar_path = "Enemies/Turtle/Turtle Avatar.png"
+base_health = 120.0
+base_speed = 20.0
+damage_to_base = 1
+gold_reward = 15
+frame_count = 7
+attack_frame_count = 8
+frame_size = [
+    320,
+    320,
+]
+attack_type = "blunt"
+defense_type = "armor"
+troops_width = 2
+troops_height = 2
+death_sprite_path = "Enemies/Turtle/Turtle_Death.png"
+death_frame_count = 6
+
+[[units]]
+id = "minotaur"
+name = "Minotaur"
+sprite_path = "Enemies/Minotaur/Minotaur_Walk.png"
+idle_sprite_path = "Enemies/Minotaur/Minotaur_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Minotaur/Minotaur_Attack.png"
+attack_sound = "Sound Effects/Hammer Swing.mp3"
+avatar_path = "Enemies/Minotaur/Minotaur Avatar.png"
+base_health = 150.0
+base_speed = 35.0
+damage_to_base = 3
+gold_reward = 20
+frame_count = 8
+attack_frame_count = 12
+frame_size = [
+    320,
+    320,
+]
+attack_type = "blunt"
+defense_type = "armor"
+troops_width = 2
+troops_height = 2
+death_sprite_path = "Enemies/Minotaur/Minotaur_Death.png"
+death_frame_count = 4
+
+[[units]]
+id = "gnoll"
+name = "Gnoll"
+sprite_path = "Enemies/Gnoll/Gnoll_Run.png"
+idle_sprite_path = "Enemies/Gnoll/Gnoll_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Gnoll/Gnoll_Throw.png"
+attack_sound = "Sound Effects/Harpoon.mp3"
+avatar_path = "Enemies/Gnoll/Gnoll Avatar.png"
+base_health = 45.0
+base_speed = 50.0
+damage_to_base = 1
+gold_reward = 9
+frame_count = 8
+attack_frame_count = 8
+frame_size = [
+    192,
+    192,
+]
+attack_type = "pierce"
+defense_type = "armor"
+troops_width = 1
+troops_height = 3
+death_sprite_path = "Enemies/Gnoll/Gnoll_Death.png"
+death_frame_count = 5
+
+[[units]]
+id = "spider"
+name = "Spider"
+sprite_path = "Enemies/Spider/Spider_Run.png"
+idle_sprite_path = "Enemies/Spider/Spider_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Spider/Spider_Attack.png"
+attack_sound = "Sound Effects/Viper.mp3"
+avatar_path = "Enemies/Spider/Spider Avatar.png"
+base_health = 25.0
+base_speed = 90.0
+damage_to_base = 1
+gold_reward = 8
+frame_count = 5
+attack_frame_count = 8
+frame_size = [
+    192,
+    192,
+]
+attack_type = "magic"
+defense_type = "agility"
+troops_width = 1
+troops_height = 3
+death_sprite_path = "Enemies/Spider/Spider_Death.png"
+death_frame_count = 5
+
+[[units]]
+id = "panda"
+name = "Panda"
+sprite_path = "Enemies/Panda/Panda_Run.png"
+idle_sprite_path = "Enemies/Panda/Panda_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Panda/Panda_Attack.png"
+attack_sound = "Sound Effects/Panda.mp3"
+avatar_path = "Enemies/Panda/Panda Avatar.png"
+base_health = 100.0
+base_speed = 45.0
+damage_to_base = 2
+gold_reward = 18
+frame_count = 6
+attack_frame_count = 13
+frame_size = [
+    256,
+    256,
+]
+attack_type = "blunt"
+defense_type = "armor"
+troops_width = 2
+troops_height = 2
+death_sprite_path = "Enemies/Panda/Panda_Death.png"
+death_frame_count = 4
+
+[[units]]
+id = "lizard"
+name = "Lizard"
+sprite_path = "Enemies/Lizard/Lizard_Run.png"
+idle_sprite_path = "Enemies/Lizard/Lizard_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Lizard/Lizard_Attack.png"
+attack_sound = "Sound Effects/Bonk.mp3"
+avatar_path = "Enemies/Lizard/Lizard Avatar.png"
+base_health = 60.0
+base_speed = 40.0
+damage_to_base = 1
+gold_reward = 10
+frame_count = 6
+attack_frame_count = 9
+frame_size = [
+    192,
+    192,
+]
+attack_type = "blunt"
+defense_type = "armor"
+troops_width = 1
+troops_height = 3
+death_sprite_path = "Enemies/Lizard/Lizard_Attack.png"
+death_frame_count = 9
+
+[[units]]
+id = "bear"
+name = "Bear"
+sprite_path = "Enemies/Bear/Bear_Run.png"
+idle_sprite_path = "Enemies/Bear/Bear_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Bear/Bear_Attack.png"
+attack_sound = "Sound Effects/Bear.mp3"
+avatar_path = "Enemies/Bear/Bear Avatar.png"
+base_health = 140.0
+base_speed = 30.0
+damage_to_base = 3
+gold_reward = 20
+frame_count = 5
+attack_frame_count = 9
+frame_size = [
+    256,
+    256,
+]
+attack_type = "blunt"
+defense_type = "armor"
+troops_width = 2
+troops_height = 2
+death_sprite_path = "Enemies/Bear/Bear_Death.png"
+death_frame_count = 5
+
+[[units]]
+id = "gnome"
+name = "Gnome"
+sprite_path = "Enemies/Gnome/Gnome_Run.png"
+idle_sprite_path = "Enemies/Gnome/Gnome_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Gnome/Gnome_Attack.png"
+attack_sound = "Sound Effects/Bonk.mp3"
+avatar_path = "Enemies/Gnome/Gnome Avatar.png"
+base_health = 25.0
+base_speed = 85.0
+damage_to_base = 1
+gold_reward = 7
+frame_count = 6
+attack_frame_count = 7
+frame_size = [
+    192,
+    192,
+]
+attack_type = "blunt"
+defense_type = "agility"
+troops_width = 1
+troops_height = 2
+death_sprite_path = "Enemies/Gnome/Gnome_Death.png"
+death_frame_count = 4
+
+[[units]]
+id = "ogre"
+name = "Ogre"
+sprite_path = "Enemies/Troll/Troll_Walk.png"
+idle_sprite_path = "Enemies/Troll/Troll_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Troll/Troll_Attack.png"
+attack_sound = "Sound Effects/Hammer Swing.mp3"
+avatar_path = "Enemies/Troll/Troll Avatar.png"
+base_health = 400.0
+base_speed = 25.0
+damage_to_base = 5
+gold_reward = 50
+frame_count = 10
+attack_frame_count = 6
+frame_size = [
+    384,
+    384,
+]
+attack_type = "blunt"
+defense_type = "armor"
+troops_width = 1
+troops_height = 1
+death_sprite_path = "Enemies/Troll/Troll_Death.png"
+death_frame_count = 10
+
+[[units]]
+id = "dragon"
+name = "Dragon"
+sprite_path = "Units/Black Units/Dragon/Dragon_Run.png"
+idle_sprite_path = "Units/Black Units/Dragon/Dragon_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Units/Black Units/Dragon/Dragon_Attack.png"
+attack_sound = "Sound Effects/Assasin.mp3"
+avatar_path = "Units/Black Units/Dragon/Dragon_Run.png"
+base_health = 200.0
+base_speed = 35.0
+damage_to_base = 3
+gold_reward = 30
+frame_count = 8
+attack_frame_count = 17
+frame_size = [
+    144,
+    144,
+]
+attack_type = "blunt"
+defense_type = "armor"
+troops_width = 2
+troops_height = 3
+death_sprite_path = "Units/Black Units/Dragon/Dragon_Death.png"
+death_frame_count = 7
+
+[[units]]
+id = "mage"
+name = "Mage"
+sprite_path = "Units/Blue Units/Mage/Mage_Run.png"
+idle_sprite_path = "Units/Blue Units/Mage/Mage_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Units/Blue Units/Mage/Mage_Attack.png"
+attack_sound = "Sound Effects/Magic Bolt.mp3"
+avatar_path = "Units/Blue Units/Mage/Mage_Run.png"
+base_health = 80.0
+base_speed = 50.0
+damage_to_base = 2
+gold_reward = 20
+frame_count = 4
+attack_frame_count = 10
+frame_size = [
+    128,
+    128,
+]
+attack_type = "magic"
+defense_type = "mystical"
+troops_width = 1
+troops_height = 2
+death_sprite_path = "Units/Blue Units/Mage/Mage_Death.png"
+death_frame_count = 5
+
+[[units]]
+id = "knight"
+name = "Knight"
+sprite_path = "Units/Yellow Units/Knight/Knight_Run.png"
+idle_sprite_path = "Units/Yellow Units/Knight/Knight_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Units/Yellow Units/Knight/Knight_Attack.png"
+attack_sound = "Sound Effects/Hammer Swing.mp3"
+avatar_path = "Units/Yellow Units/Knight/Knight_Run.png"
+base_health = 150.0
+base_speed = 55.0
+damage_to_base = 2
+gold_reward = 25
+frame_count = 8
+attack_frame_count = 11
+frame_size = [
+    192,
+    192,
+]
+attack_type = "blunt"
+defense_type = "armor"
+troops_width = 1
+troops_height = 2
+death_sprite_path = "Units/Yellow Units/Knight/Knight_Death.png"
+death_frame_count = 6
+
+[[units]]
+id = "werewolf"
+name = "Werewolf"
+sprite_path = "Enemies/Werewolf/Werewolf_Run.png"
+idle_sprite_path = "Enemies/Werewolf/Werewolf_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Werewolf/Werewolf_Attack.png"
+attack_sound = "Sound Effects/Assasin.mp3"
+avatar_path = "Enemies/Werewolf/Avatar Werewolf.png"
+base_health = 85.0
+base_speed = 70.0
+damage_to_base = 2
+gold_reward = 15
+frame_count = 6
+attack_frame_count = 7
+frame_size = [
+    196,
+    196,
+]
+attack_type = "pierce"
+defense_type = "agility"
+troops_width = 1
+troops_height = 2
+death_sprite_path = "Enemies/Werewolf/Werewolf_Death.png"
+death_frame_count = 10
+
+[[units]]
+id = "demon"
+name = "Demon"
+sprite_path = "Enemies/Demon/Demon_Run.png"
+idle_sprite_path = "Enemies/Demon/Demon_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Demon/Demon_Attack.png"
+attack_sound = "Sound Effects/Magic Bolt.mp3"
+avatar_path = "Enemies/Demon/Demon Avatar.png"
+base_health = 180.0
+base_speed = 35.0
+damage_to_base = 4
+gold_reward = 30
+frame_count = 4
+attack_frame_count = 6
+frame_size = [
+    192,
+    192,
+]
+attack_type = "magic"
+defense_type = "mystical"
+troops_width = 2
+troops_height = 2
+death_sprite_path = "Enemies/Demon/Demon_Death.png"
+death_frame_count = 10
+
+[[units]]
+id = "stone_golem"
+name = "Stone Golem"
+sprite_path = "Enemies/Stone Golem/StoneGolem_Run.png"
+idle_sprite_path = "Enemies/Stone Golem/StoneGolem_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Stone Golem/StoneGolem_Attack.png"
+attack_sound = "Sound Effects/Hammer Swing.mp3"
+avatar_path = "Enemies/Stone Golem/Avatar StoneGolem.png"
+base_health = 500.0
+base_speed = 20.0
+damage_to_base = 3
+gold_reward = 25
+frame_count = 12
+attack_frame_count = 20
+frame_size = [
+    192,
+    192,
+]
+attack_type = "blunt"
+defense_type = "armor"
+troops_width = 2
+troops_height = 2
+death_sprite_path = "Enemies/Stone Golem/StoneGolem_Death.png"
+death_frame_count = 9
+
+[[units]]
+id = "lizardman"
+name = "Lizardman"
+sprite_path = "Enemies/Lizardman/Lizardman_Run.png"
+idle_sprite_path = "Enemies/Lizardman/Lizardman_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Lizardman/Lizardman_Attack.png"
+attack_sound = "Sound Effects/Bonk.mp3"
+avatar_path = "Enemies/Lizardman/Avatar Lizardman.png"
+base_health = 70.0
+base_speed = 55.0
+damage_to_base = 2
+gold_reward = 12
+frame_count = 10
+attack_frame_count = 7
+frame_size = [
+    196,
+    196,
+]
+attack_type = "pierce"
+defense_type = "armor"
+troops_width = 1
+troops_height = 2
+death_sprite_path = "Enemies/Lizardman/Lizardman_Death.png"
+death_frame_count = 12
+
+[[units]]
+id = "cerberus"
+name = "Cerberus"
+sprite_path = "Enemies/Cerberaus/Cerberus_Run.png"
+idle_sprite_path = "Enemies/Cerberaus/Cerberus_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Cerberaus/Cerberus_Attack.png"
+attack_sound = "Sound Effects/Bear.mp3"
+avatar_path = "Enemies/Cerberaus/Avatar Cerberus.png"
+base_health = 200.0
+base_speed = 45.0
+damage_to_base = 3
+gold_reward = 28
+frame_count = 8
+attack_frame_count = 15
+frame_size = [
+    128,
+    128,
+]
+attack_type = "blunt"
+defense_type = "armor"
+troops_width = 2
+troops_height = 2
+death_sprite_path = "Enemies/Cerberaus/Cerberus_Death.png"
+death_frame_count = 10
+
+[[units]]
+id = "skeleton_mage"
+name = "Skeleton Mage"
+sprite_path = "Enemies/Skeleton Mage/SkeletonMage_Run.png"
+idle_sprite_path = "Enemies/Skeleton Mage/SkeletonMage_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Skeleton Mage/SkeletonMage_Attack.png"
+attack_sound = "Sound Effects/Magic Bolt.mp3"
+avatar_path = "Enemies/Skeleton Mage/Avatar SkeletonMage.png"
+base_health = 40.0
+base_speed = 50.0
+damage_to_base = 2
+gold_reward = 14
+frame_count = 6
+attack_frame_count = 9
+frame_size = [
+    128,
+    128,
+]
+attack_type = "magic"
+defense_type = "mystical"
+troops_width = 1
+troops_height = 2
+death_sprite_path = "Enemies/Skeleton Mage/SkeletonMage_Death.png"
+death_frame_count = 10
+
+[[units]]
+id = "gryphon"
+name = "Gryphon"
+sprite_path = "Enemies/Gryphon/Gryphon_Run.png"
+idle_sprite_path = "Enemies/Gryphon/Gryphon_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Gryphon/Gryphon_Attack.png"
+attack_sound = "Sound Effects/Assasin.mp3"
+avatar_path = "Enemies/Gryphon/Avatar Gryphon.png"
+base_health = 90.0
+base_speed = 75.0
+damage_to_base = 2
+gold_reward = 18
+frame_count = 4
+attack_frame_count = 5
+frame_size = [
+    192,
+    192,
+]
+attack_type = "pierce"
+defense_type = "agility"
+troops_width = 2
+troops_height = 2
+death_sprite_path = "Enemies/Gryphon/Gryphon_Death.png"
+death_frame_count = 7
+
+[[units]]
+id = "headless_horseman"
+name = "Headless Horseman"
+sprite_path = "Enemies/Headless Horseman/HeadlessHorseman_Run.png"
+idle_sprite_path = "Enemies/Headless Horseman/HeadlessHorseman_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Headless Horseman/HeadlessHorseman_Attack.png"
+attack_sound = "Sound Effects/Magic Bolt.mp3"
+avatar_path = "Enemies/Headless Horseman/Avatar HeadlessHorseman.png"
+base_health = 160.0
+base_speed = 55.0
+damage_to_base = 3
+gold_reward = 25
+frame_count = 4
+attack_frame_count = 8
+frame_size = [
+    192,
+    192,
+]
+attack_type = "magic"
+defense_type = "mystical"
+capacity_cost = 6
+death_sprite_path = "Enemies/Headless Horseman/HeadlessHorseman_Death.png"
+death_frame_count = 10
+
+[[units]]
+id = "pyromancer"
+name = "Pyromancer"
+sprite_path = "Enemies/Pyromancer/Pyromancer_Run.png"
+idle_sprite_path = "Enemies/Pyromancer/Pyromancer_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Pyromancer/Pyromancer_Attack.png"
+attack_sound = "Sound Effects/Magic Bolt.mp3"
+avatar_path = "Enemies/Pyromancer/Avatar Pyromancer.png"
+base_health = 50.0
+base_speed = 50.0
+damage_to_base = 2
+gold_reward = 16
+frame_count = 6
+attack_frame_count = 6
+frame_size = [
+    128,
+    128,
+]
+attack_type = "magic"
+defense_type = "mystical"
+capacity_cost = 6
+death_sprite_path = "Enemies/Pyromancer/Pyromancer_Death.png"
+death_frame_count = 10
+
+[[units]]
+id = "dwarf"
+name = "Dwarf"
+sprite_path = "Units/Purple Units/Dwarf/Dwarf_Run.png"
+idle_sprite_path = "Units/Purple Units/Dwarf/Dwarf_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Units/Purple Units/Dwarf/Dwarf_Attack.png"
+attack_sound = "Sound Effects/Bonk.mp3"
+avatar_path = "Units/Purple Units/Dwarf/Dwarf_Run.png"
+base_health = 120.0
+base_speed = 40.0
+damage_to_base = 2
+gold_reward = 20
+frame_count = 8
+attack_frame_count = 8
+frame_size = [
+    128,
+    128,
+]
+attack_type = "blunt"
+defense_type = "armor"
+capacity_cost = 3
+death_sprite_path = "Units/Purple Units/Dwarf/Dwarf_Death.png"
+death_frame_count = 9
+
+[[units]]
+id = "gargoyle"
+name = "Gargoyle"
+sprite_path = "Enemies/Gargoyle/Gargoyle_Run.png"
+idle_sprite_path = "Enemies/Gargoyle/Gargoyle_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Gargoyle/Gargoyle_Attack.png"
+attack_sound = "Sound Effects/Hammer Swing.mp3"
+avatar_path = "Enemies/Gargoyle/Avatar Gargoyle.png"
+base_health = 200.0
+base_speed = 30.0
+damage_to_base = 3
+gold_reward = 22
+frame_count = 6
+attack_frame_count = 9
+frame_size = [
+    192,
+    192,
+]
+attack_type = "blunt"
+defense_type = "mystical"
+capacity_cost = 4
+death_sprite_path = "Enemies/Gargoyle/Gargoyle_Death.png"
+death_frame_count = 7
+
+[[units]]
+id = "satyr_archer"
+name = "Satyr Archer"
+sprite_path = "Enemies/Satyr Archer/SatyrArcher_Walk.png"
+idle_sprite_path = "Enemies/Satyr Archer/SatyrArcher_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Satyr Archer/SatyrArcher_Attack.png"
+attack_sound = "Sound Effects/attack_arrow.mp3"
+avatar_path = "Enemies/Satyr Archer/Avatar SatyrArcher.png"
+base_health = 40.0
+base_speed = 65.0
+damage_to_base = 1
+gold_reward = 10
+frame_count = 8
+attack_frame_count = 12
+frame_size = [
+    128,
+    128,
+]
+attack_type = "pierce"
+defense_type = "agility"
+capacity_cost = 3
+death_sprite_path = "Enemies/Satyr Archer/SatyrArcher_Death.png"
+death_frame_count = 8
+
+[[units]]
+id = "centaur"
+name = "Centaur"
+sprite_path = "Enemies/Centaur/Centauer_Run.png"
+idle_sprite_path = "Enemies/Centaur/Centauer_Idle.png"
+idle_frame_count = 4
+attack_sprite_path = "Enemies/Centaur/Centauer_Attack.png"
+attack_sound = "Sound Effects/Hammer Swing.mp3"
+avatar_path = "Enemies/Centaur/Avatar Centauer.png"
+base_health = 110.0
+base_speed = 55.0
+damage_to_base = 2
+gold_reward = 18
+frame_count = 8
+attack_frame_count = 10
+frame_size = [
+    192,
+    192,
+]
+attack_type = "blunt"
+defense_type = "armor"
+capacity_cost = 4
+death_sprite_path = "Enemies/Centaur/Centauer_Death.png"
+death_frame_count = 8
