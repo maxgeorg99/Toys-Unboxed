@@ -9,7 +9,7 @@ use crate::components::*;
 const UNIT_TOML: &str = include_str!("../../../assets/units.toml");
 const SKULL_ID: &str = "skull";
 const SPRITE_SCALE: f32 = 0.15;
-const FORMATION_SPACING: f32 = 32.0;
+const FORMATION_SPACING: f32 = 16.0;
 const IDLE_FPS: f32 = 6.0;
 const RUN_FPS: f32 = 8.0;
 const ATTACK_FPS: f32 = 10.0;

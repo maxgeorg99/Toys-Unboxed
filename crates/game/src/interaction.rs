@@ -100,6 +100,23 @@ pub fn troop_rotate(
     }
 }
 
+pub fn counter_rotate_sprites(
+    troops: Query<(&Transform, &Children), With<Draggable>>,
+    mut members: Query<&mut Transform, (With<FormationMember>, Without<Draggable>)>,
+) {
+    for (troop_transform, children) in &troops {
+        // Extract just the Z rotation angle from the parent
+        let (_, _, angle) = troop_transform.rotation.to_euler(EulerRot::XYZ);
+        let counter = Quat::from_rotation_z(-angle);
+
+        for child in children.iter() {
+            if let Ok(mut member_transform) = members.get_mut(child) {
+                member_transform.rotation = counter;
+            }
+        }
+    }
+}
+
 /// On left-button release, stop dragging all entities.
 pub fn drag_end(
     mouse: Res<ButtonInput<MouseButton>>,

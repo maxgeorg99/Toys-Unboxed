@@ -40,6 +40,6 @@ fn main() {
             interaction::drag_move,
             interaction::drag_end,
         ).chain())
-        .add_systems(Update, interaction::troop_rotate)
+        .add_systems(Update, (interaction::troop_rotate, interaction::counter_rotate_sprites).chain())
         .run();
 }
