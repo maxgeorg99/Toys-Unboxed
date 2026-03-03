@@ -307,7 +307,7 @@ pub fn build_unit_grid(
     commands.entity(grid_entity).despawn_children();
     commands.entity(grid_entity).with_children(|grid| {
         for (name, unit_id, meat_cost, _atk, _def, avatar_img) in &render_data {
-            spawn_unit_card(grid, name, unit_id, *meat_cost, avatar_img.clone());
+            spawn_unit_card(grid, name, unit_id, avatar_img.clone());
         }
     });
 
@@ -318,20 +318,8 @@ fn spawn_unit_card(
     parent: &mut ChildSpawnerCommands,
     unit_name_full: &str,
     unit_id: &str,
-    meat_cost: u32,
     avatar_img: Handle<Image>,
 ) {
-    let card_tint = match meat_cost {
-        0..=1 => Color::srgba(0.12, 0.28, 0.18, 0.92),
-        2 => Color::srgba(0.12, 0.22, 0.30, 0.92),
-        3 => Color::srgba(0.18, 0.18, 0.32, 0.92),
-        4 => Color::srgba(0.26, 0.16, 0.26, 0.92),
-        5 => Color::srgba(0.30, 0.14, 0.14, 0.92),
-        _ => Color::srgba(0.34, 0.10, 0.10, 0.92),
-    };
-    let unit_name = short_name(unit_name_full);
-    let cost_text = format!("{}", meat_cost);
-
     parent
         .spawn((
             Button,
@@ -344,7 +332,7 @@ fn spawn_unit_card(
                 border_radius: BorderRadius::all(Val::Px(6.0)),
                 ..default()
             },
-            BackgroundColor(card_tint),
+            BackgroundColor(Color::srgba(0.12, 0.28, 0.18, 0.92)),
             RecruitButton {
                 unit_id: unit_id.to_string(),
             },
@@ -366,34 +354,11 @@ fn spawn_unit_card(
                         ..default()
                     },
                 ));
-                // Cost badge (top-right)
-                av.spawn((
-                    Node {
-                        width: Val::Px(18.0),
-                        height: Val::Px(18.0),
-                        position_type: PositionType::Absolute,
-                        right: Val::Px(-4.0),
-                        top: Val::Px(-4.0),
-                        justify_content: JustifyContent::Center,
-                        align_items: AlignItems::Center,
-                        border_radius: BorderRadius::all(Val::Px(9.0)),
-                        ..default()
-                    },
-                    BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.85)),
-                ))
-                .with_child((
-                    Text::new(cost_text),
-                    TextFont {
-                        font_size: 10.0,
-                        ..default()
-                    },
-                    TextColor(Color::srgb(1.0, 0.9, 0.4)),
-                ));
             });
 
             // Unit name
             card.spawn((
-                Text::new(unit_name),
+                Text::new(short_name(unit_name_full)),
                 TextFont {
                     font_size: 9.0,
                     ..default()

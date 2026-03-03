@@ -8,11 +8,7 @@ const ROTATE_STEP: f32 = std::f32::consts::FRAC_PI_2; // 90 degrees
 
 /// Convert the cursor's screen position to a world position, accounting for
 /// camera pan / zoom.
-fn cursor_world_pos(
-    window: &Window,
-    camera: &Camera,
-    camera_gt: &GlobalTransform,
-) -> Option<Vec2> {
+fn cursor_world_pos(window: &Window, camera: &Camera, camera_gt: &GlobalTransform) -> Option<Vec2> {
     let cursor = window.cursor_position()?;
     camera.viewport_to_world_2d(camera_gt, cursor).ok()
 }
@@ -32,15 +28,18 @@ pub fn drag_start(
     }
 
     let Ok(window) = windows.single() else { return };
-    let Ok((camera, cam_gt)) = camera_q.single() else { return };
-    let Some(world_pos) = cursor_world_pos(window, camera, cam_gt) else { return };
+    let Ok((camera, cam_gt)) = camera_q.single() else {
+        return;
+    };
+    let Some(world_pos) = cursor_world_pos(window, camera, cam_gt) else {
+        return;
+    };
 
     for (member_gt, child_of) in &members {
         let pos = member_gt.translation().truncate();
-        let scale = member_gt.compute_transform().scale.truncate();
-        let half = HALF_SIZE * scale;
+        let half = HALF_SIZE;
 
-        if (world_pos.x - pos.x).abs() < half.x && (world_pos.y - pos.y).abs() < half.y {
+        if (world_pos.x - pos.x).abs() < half && (world_pos.y - pos.y).abs() < half {
             let parent = child_of.parent();
             // Only drag if parent is draggable and not already being dragged
             if let Ok(parent_gt) = parents.get(parent) {
@@ -59,8 +58,12 @@ pub fn drag_move(
     mut dragged: Query<(&Dragging, &mut Transform)>,
 ) {
     let Ok(window) = windows.single() else { return };
-    let Ok((camera, cam_gt)) = camera_q.single() else { return };
-    let Some(world_pos) = cursor_world_pos(window, camera, cam_gt) else { return };
+    let Ok((camera, cam_gt)) = camera_q.single() else {
+        return;
+    };
+    let Some(world_pos) = cursor_world_pos(window, camera, cam_gt) else {
+        return;
+    };
 
     for (dragging, mut transform) in &mut dragged {
         let target = world_pos - dragging.offset;
@@ -83,15 +86,18 @@ pub fn troop_rotate(
     }
 
     let Ok(window) = windows.single() else { return };
-    let Ok((camera, cam_gt)) = camera_q.single() else { return };
-    let Some(world_pos) = cursor_world_pos(window, camera, cam_gt) else { return };
+    let Ok((camera, cam_gt)) = camera_q.single() else {
+        return;
+    };
+    let Some(world_pos) = cursor_world_pos(window, camera, cam_gt) else {
+        return;
+    };
 
     for (member_gt, child_of) in &members {
         let pos = member_gt.translation().truncate();
-        let scale = member_gt.compute_transform().scale.truncate();
-        let half = HALF_SIZE * scale;
+        let half = HALF_SIZE;
 
-        if (world_pos.x - pos.x).abs() < half.x && (world_pos.y - pos.y).abs() < half.y {
+        if (world_pos.x - pos.x).abs() < half && (world_pos.y - pos.y).abs() < half {
             let parent = child_of.parent();
             if let Ok(mut transform) = troops.get_mut(parent) {
                 transform.rotate_z(ROTATE_STEP);
@@ -106,7 +112,6 @@ pub fn counter_rotate_sprites(
     mut members: Query<&mut Transform, (With<FormationMember>, Without<Draggable>)>,
 ) {
     for (troop_transform, children) in &troops {
-        // Extract just the Z rotation angle from the parent
         let (_, _, angle) = troop_transform.rotation.to_euler(EulerRot::XYZ);
         let counter = Quat::from_rotation_z(-angle);
 
