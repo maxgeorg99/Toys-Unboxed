@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 use crate::components::{Draggable, Dragging, FormationMember};
+use crate::placement_visuals;
 
 const HALF_SIZE: f32 = 16.0;
 const ROTATE_STEP: f32 = std::f32::consts::FRAC_PI_2; // 90 degrees
@@ -117,17 +118,20 @@ pub fn counter_rotate_sprites(
     }
 }
 
-/// On left-button release, stop dragging all entities.
+/// On left-button release, snap to the tile grid and stop dragging.
 pub fn drag_end(
     mouse: Res<ButtonInput<MouseButton>>,
-    dragged: Query<Entity, With<Dragging>>,
+    mut dragged: Query<(Entity, &mut Transform), With<Dragging>>,
     mut commands: Commands,
 ) {
     if !mouse.just_released(MouseButton::Left) {
         return;
     }
 
-    for entity in &dragged {
+    for (entity, mut transform) in &mut dragged {
+        let snapped = placement_visuals::snap_to_grid(transform.translation.truncate());
+        transform.translation.x = snapped.x;
+        transform.translation.y = snapped.y;
         commands.entity(entity).remove::<Dragging>();
     }
 }
