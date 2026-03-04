@@ -154,12 +154,12 @@ pub fn handle_spawn_troop_events(
     }
 }
 
-pub fn spawn_enemy_troops(
-    config_res: Res<UnitConfigRes>,
-    mut events: MessageWriter<SpawnTroopEvent>,
+pub fn choose_and_spawn_enemies(
+    config: &UnitsConfig,
+    count: usize,
+    events: &mut MessageWriter<SpawnTroopEvent>,
 ) {
-    let enemy_ids: Vec<&str> = config_res
-        .0
+    let enemy_ids: Vec<&str> = config
         .units
         .iter()
         .filter(|u| !u.recruitable && !["dragon", "knight", "mage", "dwarf"].contains(&u.id.as_str()))
@@ -167,14 +167,24 @@ pub fn spawn_enemy_troops(
         .collect();
 
     let mut rng = rand::rng();
-    let chosen: Vec<&str> = enemy_ids.choose_multiple(&mut rng, 2).copied().collect();
+    let chosen: Vec<&str> = enemy_ids
+        .choose_multiple(&mut rng, count.min(enemy_ids.len()))
+        .copied()
+        .collect();
 
     for (i, unit_id) in chosen.iter().enumerate() {
-        let x = if i == 0 { -60.0_f32 } else { 60.0 };
+        let x = -60.0 + (i as f32) * 60.0;
         events.write(SpawnTroopEvent {
             unit_id: (*unit_id).to_string(),
             world_pos: Vec2::new(x, 200.0),
             owner: PlayerId(1),
         });
     }
+}
+
+pub fn spawn_enemy_troops(
+    config_res: Res<UnitConfigRes>,
+    mut events: MessageWriter<SpawnTroopEvent>,
+) {
+    choose_and_spawn_enemies(&config_res.0, 2, &mut events);
 }

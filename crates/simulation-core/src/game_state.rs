@@ -917,6 +917,112 @@ troops_height = 10
         assert_eq!(state.phase, GamePhase::Resolution);
     }
 
+    const RPS_TOML: &str = r#"
+[[units]]
+id = "warrior"
+name = "Warrior"
+sprite_path = ""
+idle_sprite_path = ""
+idle_frame_count = 1
+attack_sprite_path = ""
+base_health = 50.0
+base_speed = 50.0
+frame_count = 1
+attack_frame_count = 1
+frame_size = [64, 64]
+attack_type = "blunt"
+defense_type = "armor"
+base_damage = 20.0
+attack_range = 22.0
+attack_cooldown = 1.0
+troops_width = 1
+troops_height = 1
+
+[[units]]
+id = "archer"
+name = "Archer"
+sprite_path = ""
+idle_sprite_path = ""
+idle_frame_count = 1
+attack_sprite_path = ""
+base_health = 30.0
+base_speed = 60.0
+frame_count = 1
+attack_frame_count = 1
+frame_size = [64, 64]
+attack_type = "pierce"
+defense_type = "agility"
+base_damage = 12.0
+attack_range = 120.0
+attack_cooldown = 0.8
+projectile_speed = 200.0
+troops_width = 1
+troops_height = 1
+
+[[units]]
+id = "lancer"
+name = "Lancer"
+sprite_path = ""
+idle_sprite_path = ""
+idle_frame_count = 1
+attack_sprite_path = ""
+base_health = 80.0
+base_speed = 40.0
+frame_count = 1
+attack_frame_count = 1
+frame_size = [64, 64]
+attack_type = "blunt"
+defense_type = "agility"
+base_damage = 15.0
+attack_range = 30.0
+attack_cooldown = 1.2
+troops_width = 1
+troops_height = 1
+"#;
+
+    fn run_duel(config: &UnitsConfig, unit_a: &str, unit_b: &str) -> (bool, bool) {
+        let mut state = GameState::new();
+        spawn_one(&mut state, config, unit_a, PlayerId(1), 0.0, 0.0);
+        spawn_one(&mut state, config, unit_b, PlayerId(2), 200.0, 0.0);
+        state.execute(Command::StartBattle, config);
+        for _ in 0..1000 {
+            state.tick(0.1, config);
+            if state.phase == GamePhase::Resolution {
+                break;
+            }
+        }
+        assert_eq!(state.phase, GamePhase::Resolution);
+        (state.units[0].is_alive, state.units[1].is_alive)
+    }
+
+    // =========================================================================
+    // Rock-Paper-Scissors triangle tests
+    // =========================================================================
+
+    #[test]
+    fn rps_warrior_beats_archer() {
+        let config = make_config(RPS_TOML);
+        let (warrior_alive, archer_alive) = run_duel(&config, "warrior", "archer");
+        assert!(warrior_alive, "Warrior should survive vs Archer");
+        assert!(!archer_alive, "Archer should die vs Warrior");
+    }
+
+    #[test]
+    fn rps_lancer_beats_warrior() {
+        let config = make_config(RPS_TOML);
+        let (lancer_alive, warrior_alive) = run_duel(&config, "lancer", "warrior");
+        assert!(lancer_alive, "Lancer should survive vs Warrior");
+        assert!(!warrior_alive, "Warrior should die vs Lancer");
+    }
+
+    #[test]
+    fn rps_archer_beats_lancer() {
+        let config = make_config(RPS_TOML);
+        let (archer_alive, lancer_alive) = run_duel(&config, "archer", "lancer");
+        assert!(archer_alive, "Archer should survive vs Lancer");
+        assert!(!lancer_alive, "Lancer should die vs Archer");
+    }
+
     #[test]
     fn units_move_then_fight() {
         let config = make_config(WARRIOR_TOML);

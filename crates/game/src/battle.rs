@@ -6,6 +6,7 @@ use simulation_core::game_state::{AnimState, GameState};
 use simulation_core::types::{GamePhase, PlayerId, SimUnitId};
 
 use crate::components::*;
+use crate::economy::ResolutionTimer;
 use crate::recruitment_ui::RecruitmentPanel;
 use crate::troop_spawner::UnitConfigRes;
 
@@ -104,7 +105,11 @@ pub fn init_battle(
             );
             sim_to_entity.insert(sim_id, child);
 
-            commands.entity(child).insert((SimUnitLink(sim_id), BattleUnit));
+            commands.entity(child).insert((
+                SimUnitLink(sim_id),
+                BattleUnit,
+                TroopUnitId(troop_unit_id.0.clone()),
+            ));
             commands.entity(child).remove_parent_in_place();
             commands.entity(child).insert(
                 Transform::from_xyz(pos.x, pos.y, 1.0)
@@ -327,6 +332,11 @@ pub fn check_resolution(
     }
 
     *phase = BattlePhase::Resolution;
+
+    commands.insert_resource(ResolutionTimer(Timer::from_seconds(
+        crate::economy::RESOLUTION_DELAY_SECS,
+        TimerMode::Once,
+    )));
 
     let player_alive = state
         .game_state

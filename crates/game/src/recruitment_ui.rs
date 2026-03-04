@@ -2,6 +2,7 @@ use bevy::prelude::*;
 
 use simulation_core::types::{AttackType, DefenseType, PlayerId};
 
+use crate::economy::{Economy, RecruitSlots};
 use crate::troop_spawner::{SpawnTroopEvent, UnitConfigRes};
 
 // ─── Layout constants ───────────────────────────────────────────────────────
@@ -61,7 +62,9 @@ impl Default for RecruitUiState {
 
 // ─── Setup ──────────────────────────────────────────────────────────────────
 
-pub fn setup_recruitment_ui(mut commands: Commands) {
+const FILTER_ICON_SZ: f32 = 24.0;
+
+pub fn setup_recruitment_ui(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.init_resource::<RecruitUnitFilter>();
     commands.init_resource::<RecruitUiState>();
 
@@ -182,12 +185,12 @@ pub fn setup_recruitment_ui(mut commands: Commands) {
                                         FilterAttackButton { attack_type: atk },
                                     ))
                                     .with_child((
-                                        Text::new(attack_label(atk)),
-                                        TextFont {
-                                            font_size: 10.0,
+                                        ImageNode::new(asset_server.load(attack_icon_path(atk))),
+                                        Node {
+                                            width: Val::Px(FILTER_ICON_SZ),
+                                            height: Val::Px(FILTER_ICON_SZ),
                                             ..default()
                                         },
-                                        TextColor(Color::WHITE),
                                     ));
                                 }
                             });
@@ -238,12 +241,12 @@ pub fn setup_recruitment_ui(mut commands: Commands) {
                                         FilterDefenseButton { defense_type: def },
                                     ))
                                     .with_child((
-                                        Text::new(defense_label(def)),
-                                        TextFont {
-                                            font_size: 10.0,
+                                        ImageNode::new(asset_server.load(defense_icon_path(def))),
+                                        Node {
+                                            width: Val::Px(FILTER_ICON_SZ),
+                                            height: Val::Px(FILTER_ICON_SZ),
                                             ..default()
                                         },
-                                        TextColor(Color::WHITE),
                                     ));
                                 }
                             });
@@ -293,20 +296,14 @@ pub fn build_unit_grid(
         .iter()
         .map(|unit| {
             let avatar_img = asset_server.load(&unit.avatar_path);
-            (
-                unit.name.clone(),
-                unit.id.clone(),
-                unit.attack_type,
-                unit.defense_type,
-                avatar_img,
-            )
+            (unit.name.clone(), unit.id.clone(), unit.meat_cost, avatar_img)
         })
         .collect();
 
     commands.entity(grid_entity).despawn_children();
     commands.entity(grid_entity).with_children(|grid| {
-        for (name, unit_id, _atk, _def, avatar_img) in &render_data {
-            spawn_unit_card(grid, name, unit_id, avatar_img.clone());
+        for (name, unit_id, cost, avatar_img) in &render_data {
+            spawn_unit_card(grid, name, unit_id, *cost, avatar_img.clone());
         }
     });
 
@@ -317,8 +314,10 @@ fn spawn_unit_card(
     parent: &mut ChildSpawnerCommands,
     unit_name_full: &str,
     unit_id: &str,
+    cost: u32,
     avatar_img: Handle<Image>,
 ) {
+    let cost_text = format!("{cost}");
     parent
         .spawn((
             Button,
@@ -326,7 +325,7 @@ fn spawn_unit_card(
                 flex_direction: FlexDirection::Column,
                 align_items: AlignItems::Center,
                 padding: UiRect::all(Val::Px(4.0)),
-                row_gap: Val::Px(3.0),
+                row_gap: Val::Px(2.0),
                 width: Val::Px(CARD_PX),
                 border_radius: BorderRadius::all(Val::Px(6.0)),
                 ..default()
@@ -337,7 +336,6 @@ fn spawn_unit_card(
             },
         ))
         .with_children(|card| {
-            // Avatar container (relative, for overlaid badges)
             card.spawn(Node {
                 width: Val::Px(52.0),
                 height: Val::Px(52.0),
@@ -353,15 +351,30 @@ fn spawn_unit_card(
                         ..default()
                     },
                 ));
+                av.spawn((
+                    Node {
+                        width: Val::Px(18.0),
+                        height: Val::Px(18.0),
+                        position_type: PositionType::Absolute,
+                        right: Val::Px(-4.0),
+                        top: Val::Px(-4.0),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        border_radius: BorderRadius::all(Val::Px(9.0)),
+                        ..default()
+                    },
+                    BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.85)),
+                ))
+                .with_child((
+                    Text::new(cost_text),
+                    TextFont { font_size: 10.0, ..default() },
+                    TextColor(Color::srgb(1.0, 0.9, 0.4)),
+                ));
             });
 
-            // Unit name
             card.spawn((
                 Text::new(short_name(unit_name_full)),
-                TextFont {
-                    font_size: 9.0,
-                    ..default()
-                },
+                TextFont { font_size: 9.0, ..default() },
                 TextColor(Color::srgb(0.9, 0.9, 0.9)),
             ));
         });
@@ -377,20 +390,20 @@ fn short_name(name: &str) -> String {
     }
 }
 
-fn attack_label(atk: AttackType) -> &'static str {
+pub fn attack_icon_path(atk: AttackType) -> &'static str {
     match atk {
-        AttackType::Blunt => "BLT",
-        AttackType::Pierce => "PRC",
-        AttackType::Magic => "MAG",
-        AttackType::Divine => "DIV",
+        AttackType::Blunt => "Icons/Sword_Icon.png",
+        AttackType::Pierce => "Icons/Sword_Icon.png",
+        AttackType::Magic => "Icons/WandT2.png",
+        AttackType::Divine => "Icons/Divine_Icon.png",
     }
 }
 
-fn defense_label(def: DefenseType) -> &'static str {
+pub fn defense_icon_path(def: DefenseType) -> &'static str {
     match def {
-        DefenseType::Armor => "ARM",
-        DefenseType::Agility => "AGI",
-        DefenseType::Mystical => "MYS",
+        DefenseType::Armor => "Icons/Defense_Icon.png",
+        DefenseType::Agility => "Icons/Agility_Icon.png",
+        DefenseType::Mystical => "Icons/Mystical_Icon.png",
     }
 }
 
@@ -456,6 +469,9 @@ pub fn handle_recruit_buttons(
     interaction_q: Query<(&Interaction, &RecruitButton), Changed<Interaction>>,
     camera_q: Query<(&Camera, &GlobalTransform), With<Camera2d>>,
     windows: Query<&Window>,
+    config_res: Res<UnitConfigRes>,
+    mut economy: ResMut<Economy>,
+    mut slots: ResMut<RecruitSlots>,
     mut spawn_events: MessageWriter<SpawnTroopEvent>,
 ) {
     for (interaction, button) in &interaction_q {
@@ -463,8 +479,24 @@ pub fn handle_recruit_buttons(
             continue;
         }
 
-        // Spawn at the centre of the current camera view
+        if slots.remaining == 0 {
+            continue;
+        }
+
+        let cost = config_res
+            .0
+            .find_by_id(&button.unit_id)
+            .map(|u| u.meat_cost)
+            .unwrap_or(0);
+
+        if economy.gold < cost {
+            continue;
+        }
+
         let world_pos = camera_centre(&camera_q, &windows).unwrap_or(Vec2::ZERO);
+
+        economy.gold -= cost;
+        slots.remaining -= 1;
 
         spawn_events.write(SpawnTroopEvent {
             unit_id: button.unit_id.clone(),

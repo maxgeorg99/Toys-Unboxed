@@ -3,6 +3,7 @@ mod battle;
 mod camera;
 mod components;
 mod details_ui;
+mod economy;
 mod interaction;
 mod map;
 mod placement_visuals;
@@ -35,10 +36,12 @@ fn main() {
             troop_spawner::init_units_config,
         ))
         .add_systems(Startup, (
+            economy::setup_economy,
             troop_spawner::spawn_enemy_troops,
             recruitment_ui::setup_recruitment_ui,
             details_ui::setup_details_ui,
             battle::setup_battle_ui,
+            economy::setup_economy_hud,
         ).after(troop_spawner::init_units_config))
         .add_systems(Update, (
             camera::camera_pan,
@@ -64,6 +67,7 @@ fn main() {
             placement_visuals::draw_drag_indicators,
         ))
         .add_systems(Update, battle::handle_start_battle_button)
+        .add_systems(Update, economy::update_economy_hud)
         .add_systems(Update, (
             battle::init_battle,
             battle::tick_battle,
@@ -73,5 +77,6 @@ fn main() {
             battle::animate_projectiles,
             battle::check_resolution,
         ).chain())
+        .add_systems(Update, economy::advance_round.after(battle::check_resolution))
         .run();
 }
