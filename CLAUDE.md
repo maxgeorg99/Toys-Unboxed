@@ -31,15 +31,18 @@ Tactical autobattler for the Bad Ideas Game Jam 2026. Built with Bevy 0.18 + bev
 - Drag system: `Draggable` marker + `Dragging { offset }` component
 - Rotation: middle-click rotates parent, child sprites counter-rotate
 
+## Key Guidelines
+- avoid comments in code
+- use rust language features to avoid boilerplate code
+
 ## Build & Run
 ```sh
 cargo run -p game
+cargo test
 ```
 
 ## Unit Types
-- **Player (recruitable=true)**: warrior, archer, lancer, monk
-- **Player (other)**: dragon, mage, knight, dwarf
 - **Enemies**: skull, paddle_fish, harpoon_fish, goblin_lancer, shaman, thief, snake, turtle, minotaur, gnoll, spider, panda, lizard, bear, gnome, ogre, werewolf, demon, stone_golem, lizardman, cerberus, skeleton_mage, gryphon, headless_horseman, pyromancer, satyr_archer, centaur, gargoyle
 
 ## Reference Project
-- `/Users/maximilian.georg/RustroverProjects/tower-defense-with-friends/` — Sister project with island_ui.rs boat recruitment panel pattern
+- `/Users/maximilian.georg/RustroverProjects/tower-defense-with-friends/` — Sister project

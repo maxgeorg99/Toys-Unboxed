@@ -1,7 +1,9 @@
 use crate::combat::calculate_damage;
 use crate::formation::Formation;
-use crate::types::{GamePhase, PlayerId, SimUnitId};
+use crate::types::{AttackType, GamePhase, PlayerId, SimUnitId};
 use crate::unit_data::UnitsConfig;
+
+const MELEE_RANGE_THRESHOLD: f32 = 40.0;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum AnimState {
@@ -26,7 +28,19 @@ pub struct SimUnit {
     pub target: Option<SimUnitId>,
 }
 
-/// Command pattern: all mutations go through commands.
+#[derive(Debug, Clone)]
+pub struct SimProjectile {
+    pub id: u64,
+    pub x: f32,
+    pub y: f32,
+    pub target_id: SimUnitId,
+    pub speed: f32,
+    pub damage: f32,
+    pub attack_type: AttackType,
+    pub owner: PlayerId,
+    pub source_def_id: String,
+}
+
 pub enum Command {
     SpawnTroop(SpawnTroopCommand),
     StartBattle,
@@ -43,7 +57,9 @@ pub struct SpawnTroopCommand {
 pub struct GameState {
     pub phase: GamePhase,
     pub units: Vec<SimUnit>,
+    pub projectiles: Vec<SimProjectile>,
     next_unit_id: u64,
+    next_projectile_id: u64,
 }
 
 impl GameState {
@@ -51,8 +67,30 @@ impl GameState {
         Self {
             phase: GamePhase::Placement,
             units: Vec::new(),
+            projectiles: Vec::new(),
             next_unit_id: 0,
+            next_projectile_id: 0,
         }
+    }
+
+    pub fn add_unit(&mut self, def_id: &str, owner: PlayerId, x: f32, y: f32, config: &UnitsConfig) -> SimUnitId {
+        let def = config.find_by_id(def_id).expect("unknown unit id");
+        let id = SimUnitId(self.next_unit_id);
+        self.next_unit_id += 1;
+        self.units.push(SimUnit {
+            id,
+            def_id: def_id.to_string(),
+            owner,
+            health: def.base_health,
+            max_health: def.base_health,
+            x,
+            y,
+            is_alive: true,
+            animation_state: AnimState::Idle,
+            attack_cooldown_remaining: 0.0,
+            target: None,
+        });
+        id
     }
 
     pub fn execute(&mut self, command: Command, config: &UnitsConfig) {
@@ -204,7 +242,7 @@ impl GameState {
             unit.animation_state = action.anim;
         }
 
-        // Step 4: Attack execution — collect damage into buffer
+        // Step 4: Attack execution — melee applies damage, ranged spawns projectiles
         struct DamageEvent {
             target_id: SimUnitId,
             damage: f32,
@@ -223,8 +261,8 @@ impl GameState {
             };
 
             let attacker_def = config.find_by_id(&unit.def_id).expect("unknown unit def");
+            let is_ranged = attacker_def.attack_range > MELEE_RANGE_THRESHOLD;
 
-            // Find target to get its defense type
             let target_def_id = self.units.iter()
                 .find(|u| u.id == target_id)
                 .map(|u| u.def_id.clone());
@@ -241,10 +279,25 @@ impl GameState {
                 target_def.defense_type,
             );
 
-            damage_events.push(DamageEvent {
-                target_id,
-                damage: dmg,
-            });
+            if is_ranged && attacker_def.projectile_speed > 0.0 {
+                self.projectiles.push(SimProjectile {
+                    id: self.next_projectile_id,
+                    x: unit.x,
+                    y: unit.y,
+                    target_id,
+                    speed: attacker_def.projectile_speed,
+                    damage: dmg,
+                    attack_type: attacker_def.attack_type,
+                    owner: unit.owner,
+                    source_def_id: unit.def_id.clone(),
+                });
+                self.next_projectile_id += 1;
+            } else {
+                damage_events.push(DamageEvent {
+                    target_id,
+                    damage: dmg,
+                });
+            }
         }
 
         // Reset cooldowns for units that attacked
@@ -258,6 +311,40 @@ impl GameState {
                 self.units[i].attack_cooldown_remaining = def.attack_cooldown;
             }
         }
+
+        // Step 4b: Move projectiles toward their targets
+        let mut projectile_hits: Vec<DamageEvent> = Vec::new();
+        let mut arrived_ids: Vec<u64> = Vec::new();
+
+        self.projectiles.retain_mut(|proj| {
+            let target = self.units.iter().find(|u| u.id == proj.target_id);
+            let Some(target) = target else {
+                return false;
+            };
+            if !target.is_alive {
+                return false;
+            }
+
+            let dx = target.x - proj.x;
+            let dy = target.y - proj.y;
+            let dist = (dx * dx + dy * dy).sqrt();
+
+            if dist < 4.0 {
+                projectile_hits.push(DamageEvent {
+                    target_id: proj.target_id,
+                    damage: proj.damage,
+                });
+                arrived_ids.push(proj.id);
+                return false;
+            }
+
+            let move_amount = (proj.speed * dt).min(dist);
+            proj.x += (dx / dist) * move_amount;
+            proj.y += (dy / dist) * move_amount;
+            true
+        });
+
+        damage_events.extend(projectile_hits);
 
         // Step 5: Apply damage and handle deaths
         for event in &damage_events {

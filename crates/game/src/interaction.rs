@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
-use crate::components::{Draggable, Dragging, FormationMember};
+use crate::battle::BattlePhase;
+use crate::components::{Draggable, Dragging, FormationMember, Selected};
 use crate::placement_visuals;
 
 const HALF_SIZE: f32 = 16.0;
@@ -21,8 +22,13 @@ pub fn drag_start(
     camera_q: Query<(&Camera, &GlobalTransform), With<Camera2d>>,
     members: Query<(&GlobalTransform, &ChildOf), With<FormationMember>>,
     parents: Query<&GlobalTransform, (With<Draggable>, Without<Dragging>)>,
+    previously_selected: Query<Entity, With<Selected>>,
     mut commands: Commands,
+    phase: Res<BattlePhase>,
 ) {
+    if *phase != BattlePhase::Placement {
+        return;
+    }
     if !mouse.just_pressed(MouseButton::Left) {
         return;
     }
@@ -41,10 +47,12 @@ pub fn drag_start(
 
         if (world_pos.x - pos.x).abs() < half && (world_pos.y - pos.y).abs() < half {
             let parent = child_of.parent();
-            // Only drag if parent is draggable and not already being dragged
             if let Ok(parent_gt) = parents.get(parent) {
                 let offset = world_pos - parent_gt.translation().truncate();
-                commands.entity(parent).insert(Dragging { offset });
+                for e in &previously_selected {
+                    commands.entity(e).remove::<Selected>();
+                }
+                commands.entity(parent).insert((Dragging { offset }, Selected));
                 return;
             }
         }
@@ -80,7 +88,11 @@ pub fn troop_rotate(
     camera_q: Query<(&Camera, &GlobalTransform), With<Camera2d>>,
     members: Query<(&GlobalTransform, &ChildOf), With<FormationMember>>,
     mut troops: Query<&mut Transform, With<Draggable>>,
+    phase: Res<BattlePhase>,
 ) {
+    if *phase != BattlePhase::Placement {
+        return;
+    }
     if !mouse.just_pressed(MouseButton::Middle) {
         return;
     }
@@ -138,5 +150,42 @@ pub fn drag_end(
         transform.translation.x = snapped.x;
         transform.translation.y = snapped.y;
         commands.entity(entity).remove::<Dragging>();
+    }
+}
+
+pub fn deselect_on_empty_click(
+    mouse: Res<ButtonInput<MouseButton>>,
+    windows: Query<&Window>,
+    camera_q: Query<(&Camera, &GlobalTransform), With<Camera2d>>,
+    members: Query<&GlobalTransform, With<FormationMember>>,
+    selected: Query<Entity, With<Selected>>,
+    ui_interactions: Query<&Interaction, With<Node>>,
+    mut commands: Commands,
+) {
+    if !mouse.just_pressed(MouseButton::Left) {
+        return;
+    }
+
+    if ui_interactions.iter().any(|i| *i != Interaction::None) {
+        return;
+    }
+
+    let Ok(window) = windows.single() else { return };
+    let Ok((camera, cam_gt)) = camera_q.single() else {
+        return;
+    };
+    let Some(world_pos) = cursor_world_pos(window, camera, cam_gt) else {
+        return;
+    };
+
+    let hit = members.iter().any(|gt| {
+        let pos = gt.translation().truncate();
+        (world_pos.x - pos.x).abs() < HALF_SIZE && (world_pos.y - pos.y).abs() < HALF_SIZE
+    });
+
+    if !hit {
+        for e in &selected {
+            commands.entity(e).remove::<Selected>();
+        }
     }
 }

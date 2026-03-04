@@ -1,8 +1,9 @@
 use bevy::prelude::*;
 use bevy::sprite::Anchor;
+use rand::prelude::IndexedRandom;
 
 use simulation_core::formation::Formation;
-use simulation_core::types::SimUnitId;
+use simulation_core::types::PlayerId;
 use simulation_core::unit_data::{UnitDef, UnitsConfig};
 
 use crate::components::*;
@@ -18,11 +19,11 @@ const RUN_FPS: f32 = 8.0;
 const ATTACK_FPS: f32 = 10.0;
 const DEATH_FPS: f32 = 8.0;
 
-/// Message fired to request spawning a troop formation at a world position.
 #[derive(Message)]
 pub struct SpawnTroopEvent {
     pub unit_id: String,
     pub world_pos: Vec2,
+    pub owner: PlayerId,
 }
 
 /// Insert UnitsConfig as a Bevy resource on startup.
@@ -121,11 +122,13 @@ pub fn handle_spawn_troop_events(
         commands
             .spawn((
                 Draggable,
+                TroopUnitId(event.unit_id.clone()),
+                Owner(event.owner),
                 Transform::from_xyz(event.world_pos.x, event.world_pos.y, 0.0),
                 Visibility::default(),
             ))
             .with_children(|parent| {
-                for (i, (ox, oy)) in formation.positions().iter().enumerate() {
+                for (ox, oy) in formation.positions().iter() {
                     parent.spawn((
                         Sprite {
                             image: idle_tex.clone(),
@@ -144,7 +147,6 @@ pub fn handle_spawn_troop_events(
                             TimerMode::Repeating,
                         )),
                         unit_animations.clone(),
-                        SimUnitLink(SimUnitId(i as u64)),
                         FormationMember,
                     ));
                 }
@@ -152,10 +154,27 @@ pub fn handle_spawn_troop_events(
     }
 }
 
-/// Startup system: spawns the initial skull troop.
-pub fn spawn_skull_troop(mut events: MessageWriter<SpawnTroopEvent>) {
-    events.write(SpawnTroopEvent {
-        unit_id: "skull".to_string(),
-        world_pos: Vec2::ZERO,
-    });
+pub fn spawn_enemy_troops(
+    config_res: Res<UnitConfigRes>,
+    mut events: MessageWriter<SpawnTroopEvent>,
+) {
+    let enemy_ids: Vec<&str> = config_res
+        .0
+        .units
+        .iter()
+        .filter(|u| !u.recruitable && !["dragon", "knight", "mage", "dwarf"].contains(&u.id.as_str()))
+        .map(|u| u.id.as_str())
+        .collect();
+
+    let mut rng = rand::rng();
+    let chosen: Vec<&str> = enemy_ids.choose_multiple(&mut rng, 2).copied().collect();
+
+    for (i, unit_id) in chosen.iter().enumerate() {
+        let x = if i == 0 { -60.0_f32 } else { 60.0 };
+        events.write(SpawnTroopEvent {
+            unit_id: (*unit_id).to_string(),
+            world_pos: Vec2::new(x, 200.0),
+            owner: PlayerId(1),
+        });
+    }
 }

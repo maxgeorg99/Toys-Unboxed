@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use simulation_core::types::{AttackType, DefenseType};
+use simulation_core::types::{AttackType, DefenseType, PlayerId};
 
 use crate::troop_spawner::{SpawnTroopEvent, UnitConfigRes};
 
@@ -286,7 +286,7 @@ pub fn build_unit_grid(
         cards.retain(|u| u.defense_type == def);
     }
 
-    cards.sort_by(|a, b| a.meat_cost.cmp(&b.meat_cost).then(a.name.cmp(&b.name)));
+    cards.sort_by(|a, b| a.name.cmp(&b.name));
 
     // Pre-load avatar handles outside the closure
     let render_data: Vec<_> = cards
@@ -296,7 +296,6 @@ pub fn build_unit_grid(
             (
                 unit.name.clone(),
                 unit.id.clone(),
-                unit.meat_cost,
                 unit.attack_type,
                 unit.defense_type,
                 avatar_img,
@@ -306,7 +305,7 @@ pub fn build_unit_grid(
 
     commands.entity(grid_entity).despawn_children();
     commands.entity(grid_entity).with_children(|grid| {
-        for (name, unit_id, meat_cost, _atk, _def, avatar_img) in &render_data {
+        for (name, unit_id, _atk, _def, avatar_img) in &render_data {
             spawn_unit_card(grid, name, unit_id, avatar_img.clone());
         }
     });
@@ -470,6 +469,7 @@ pub fn handle_recruit_buttons(
         spawn_events.write(SpawnTroopEvent {
             unit_id: button.unit_id.clone(),
             world_pos,
+            owner: PlayerId(0),
         });
     }
 }

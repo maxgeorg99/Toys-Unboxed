@@ -49,9 +49,21 @@ pub struct UnitDef {
     pub death_frame_size: Option<[u32; 2]>,
     #[serde(default)]
     pub capacity_cost: Option<u32>,
+    #[serde(default)]
+    pub projectile_speed: f32,
+    #[serde(default)]
+    pub projectile_sprite_path: String,
+    #[serde(default = "default_one_usize")]
+    pub projectile_frame_count: usize,
+    #[serde(default)]
+    pub projectile_frame_size: Option<[u32; 2]>,
 }
 
 fn default_one() -> u32 {
+    1
+}
+
+fn default_one_usize() -> usize {
     1
 }
 

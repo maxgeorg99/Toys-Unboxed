@@ -1,6 +1,8 @@
 mod animation;
+mod battle;
 mod camera;
 mod components;
+mod details_ui;
 mod interaction;
 mod map;
 mod placement_visuals;
@@ -33,8 +35,10 @@ fn main() {
             troop_spawner::init_units_config,
         ))
         .add_systems(Startup, (
-            troop_spawner::spawn_skull_troop,
+            troop_spawner::spawn_enemy_troops,
             recruitment_ui::setup_recruitment_ui,
+            details_ui::setup_details_ui,
+            battle::setup_battle_ui,
         ).after(troop_spawner::init_units_config))
         .add_systems(Update, (
             camera::camera_pan,
@@ -47,6 +51,8 @@ fn main() {
             recruitment_ui::handle_filter_buttons,
             recruitment_ui::highlight_active_filters,
         ))
+        .add_systems(Update, details_ui::update_details_ui)
+        .add_systems(Update, interaction::deselect_on_empty_click)
         .add_systems(Update, (
             interaction::drag_start,
             interaction::drag_move,
@@ -57,5 +63,15 @@ fn main() {
             placement_visuals::draw_grid_overlay,
             placement_visuals::draw_drag_indicators,
         ))
+        .add_systems(Update, battle::handle_start_battle_button)
+        .add_systems(Update, (
+            battle::init_battle,
+            battle::tick_battle,
+            battle::sync_sim_to_bevy,
+            battle::sync_projectiles_to_bevy,
+            battle::move_projectile_visuals,
+            battle::animate_projectiles,
+            battle::check_resolution,
+        ).chain())
         .run();
 }

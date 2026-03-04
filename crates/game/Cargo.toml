@@ -6,4 +6,5 @@ edition = "2024"
 [dependencies]
 bevy = "0.18"
 bevy_ecs_tiled = "0.11"
+rand = "0.9"
 simulation-core = { path = "../simulation-core" }

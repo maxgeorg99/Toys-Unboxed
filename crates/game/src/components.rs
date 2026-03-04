@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use simulation_core::types::SimUnitId;
+use simulation_core::types::{PlayerId, SimUnitId};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Component)]
 pub enum AnimationState {
@@ -7,6 +7,18 @@ pub enum AnimationState {
     Run,
     Attack,
     Death,
+}
+
+#[derive(Component)]
+pub struct Owner(pub PlayerId);
+
+#[derive(Component)]
+pub struct BattleUnit;
+
+#[derive(Component)]
+pub struct ProjectileVisual {
+    pub sim_id: u64,
+    pub frame_count: usize,
 }
 
 #[derive(Debug, Clone)]
@@ -56,3 +68,9 @@ pub struct Draggable;
 pub struct Dragging {
     pub offset: Vec2,
 }
+
+#[derive(Component)]
+pub struct TroopUnitId(pub String);
+
+#[derive(Component)]
+pub struct Selected;
