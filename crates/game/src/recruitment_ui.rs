@@ -502,6 +502,7 @@ pub fn handle_recruit_buttons(
             unit_id: button.unit_id.clone(),
             world_pos,
             owner: PlayerId(0),
+            remote_troop_id: None,
         });
     }
 }

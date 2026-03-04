@@ -24,6 +24,7 @@ pub struct SpawnTroopEvent {
     pub unit_id: String,
     pub world_pos: Vec2,
     pub owner: PlayerId,
+    pub remote_troop_id: Option<u64>,
 }
 
 /// Insert UnitsConfig as a Bevy resource on startup.
@@ -119,14 +120,17 @@ pub fn handle_spawn_troop_events(
 
         let formation = Formation::new(unit.troops_width, unit.troops_height, FORMATION_SPACING);
 
-        commands
-            .spawn((
-                Draggable,
-                TroopUnitId(event.unit_id.clone()),
-                Owner(event.owner),
-                Transform::from_xyz(event.world_pos.x, event.world_pos.y, 0.0),
-                Visibility::default(),
-            ))
+        let is_remote = event.remote_troop_id.is_some();
+        let mut troop = commands.spawn((
+            TroopUnitId(event.unit_id.clone()),
+            Owner(event.owner),
+            Transform::from_xyz(event.world_pos.x, event.world_pos.y, 0.0),
+            Visibility::default(),
+        ));
+        if !is_remote {
+            troop.insert(Draggable);
+        }
+        troop
             .with_children(|parent| {
                 for (ox, oy) in formation.positions().iter() {
                     parent.spawn((
@@ -178,6 +182,7 @@ pub fn choose_and_spawn_enemies(
             unit_id: (*unit_id).to_string(),
             world_pos: Vec2::new(x, 200.0),
             owner: PlayerId(1),
+            remote_troop_id: None,
         });
     }
 }

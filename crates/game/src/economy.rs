@@ -185,6 +185,7 @@ pub fn advance_round(
             unit_id: def_id.clone(),
             world_pos: Vec2::new(x, -100.0),
             owner: PlayerId(0),
+            remote_troop_id: None,
         });
     }
 

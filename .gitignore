@@ -1,4 +1,6 @@
 /target
+spacetimedb/target
 .idea/
 *.iml
 Cargo.lock
+crates/game/src/module_bindings/
