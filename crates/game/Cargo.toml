@@ -8,5 +8,5 @@ bevy = "0.18"
 bevy_ecs_tiled = "0.11"
 rand = "0.9"
 simulation-core = { path = "../simulation-core" }
-bevy_spacetimedb = { path = "/Users/maximilian.georg/RustroverProjects/tower-defense-with-friends/bevy_spacetimedb" }
+bevy_spacetimedb = { path = "/home/max/RustroverProjects/bevy_spacetimedb_wasm/bevy_spacetimedb" }
 spacetimedb-sdk = { git = "https://github.com/maxgeorg99/SpacetimeDB.git", branch = "rust-web-sdk-updated", default-features = false }

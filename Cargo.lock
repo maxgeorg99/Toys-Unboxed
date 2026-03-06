@@ -1353,7 +1353,20 @@ name = "bevy_spacetimedb"
 version = "0.7.2"
 dependencies = [
  "bevy",
+ "bevy_spacetimedb_macros",
  "spacetimedb-sdk",
+ "tokio",
+]
+
+[[package]]
+name = "bevy_spacetimedb_macros"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0d280e7e01308ef9b2629d888d71845f65c3f790f3dfedecc537182175527118"
+dependencies = [
+ "heck 0.5.0",
+ "quote",
+ "syn",
 ]
 
 [[package]]
